@@ -18,12 +18,7 @@ docker run -it --rm --network flink_local --name datasource alpine:3 nc -lk -p 9
 ## Submit SeaTunnel jobs
 
 ```shell
-docker run -it --rm \
-  -v $(pwd):/app \
-  -v $(pwd)/config/flink-conf.yaml:/flink/conf/flink-conf.yaml \
-  --network flink_local \
-  -e FLINK_PROPERTIES="jobmanager.rpc.address: jobmanager" \
-  apache/seatunnel-flink --config /app/config/application.conf
+docker run -it --rm -v C:\soft\ProjectCode\incubator-seatunnel\deploy\docker\flink:/app -v C:\soft\ProjectCode\incubator-seatunnel\deploy\docker\flink\config\flink-conf.yaml:/flink/conf/flink-conf.yaml --network flink_local -e FLINK_PROPERTIES="jobmanager.rpc.address: jobmanager" apache/seatunnel-flink --config /app/config/application.conf
 ```
 
 You will find the running job in http://localhost:8081.

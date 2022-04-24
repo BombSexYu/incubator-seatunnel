@@ -19,7 +19,7 @@ version: '3.8'
 
 services:
   jobmanager:
-    image: flink:1.9.0
+    image: flink:1.14.2-scala_2.11-java8
     networks: [ local ]
     ports:
       - "8081:8081"
@@ -37,7 +37,7 @@ services:
       start_period: 10s
 
   taskmanager:
-    image: flink:1.9.0
+    image: flink:1.14.2-scala_2.11-java8
     networks: [ local ]
     command:
       - taskmanager
