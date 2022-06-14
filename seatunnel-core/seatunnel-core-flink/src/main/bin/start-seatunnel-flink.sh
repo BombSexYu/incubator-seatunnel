@@ -16,65 +16,40 @@
 # limitations under the License.
 #
 
-# copy command line arguments
+set -eu
+APP_DIR=$(cd $(dirname ${0})/../;pwd)
+CONF_DIR=${APP_DIR}/config
+APP_JAR=${APP_DIR}/lib/seatunnel-core-flink.jar
 
-function usage() {
-  echo "Usage: start-seatunnel-flink.sh [options]"
-  echo "  options:"
-  echo "    --config, -c FILE_PATH        Config file"
-  echo "    --variable, -i PROP=VALUE     Variable substitution, such as -i city=beijing, or -i date=20190318"
-  echo "    --check, -t                   Check config"
-  echo "    --help, -h                    Show this help message"
-}
-
-if [[ "$@" = *--help ]] || [[ "$@" = *-h ]] || [[ $# -le 1 ]]; then
-  usage
-  exit 0
+if [ -f "${CONF_DIR}/seatunnel-env.sh" ]; then
+    . "${CONF_DIR}/seatunnel-env.sh"
 fi
 
-PARAMS=""
-while (( "$#" )); do
-  case "$1" in
-    -c|--config)
-      CONFIG_FILE=$2
-      shift 2
-      ;;
+if [ $# == 0 ]
+then
+    args="-h"
+else
+    args=$@
+fi
 
-    -i|--variable)
-      variable=$2
-      java_property_value="-D${variable}"
-      variables_substitution="${java_property_value} ${variables_substitution}"
-      shift 2
-      ;;
+ENV_PARAMETERS_OR_ERROR=$(java -cp ${APP_JAR} org.apache.seatunnel.core.flink.FlinkEnvParameterParser ${args}) && EXIT_CODE=$? || EXIT_CODE=$?
+if [ ${EXIT_CODE} -eq 0 ]; then
+  echo "Export JVM_ARGS: ${ENV_PARAMETERS_OR_ERROR}"
+  export JVM_ARGS="${ENV_PARAMETERS_OR_ERROR}"
+else
+    echo "${ENV_PARAMETERS_OR_ERROR}"
+    exit ${EXIT_CODE}
+fi
 
-    *) # preserve positional arguments
-      PARAMS="$PARAMS $1"
-      shift
-      ;;
-
-  esac
-done
-# set positional arguments in their proper place
-eval set -- "$PARAMS"
-
-BIN_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-UTILS_DIR=${BIN_DIR}/utils
-APP_DIR=$(dirname ${BIN_DIR})
-CONF_DIR=${APP_DIR}/config
-PLUGINS_DIR=${APP_DIR}/lib
-DEFAULT_CONFIG=${CONF_DIR}/application.conf
-CONFIG_FILE=${CONFIG_FILE:-$DEFAULT_CONFIG}
-
-
-assemblyJarName=$(find ${PLUGINS_DIR} -name seatunnel-core-flink*.jar)
-
-string_trim() {
-    echo $1 | awk '{$1=$1;print}'
-}
-
-export JVM_ARGS=$(string_trim "${variables_substitution}")
-
-exec ${FLINK_HOME}/bin/flink run \
-    ${PARAMS} \
-    -c org.apache.seatunnel.SeatunnelFlink \
-    ${assemblyJarName} --config ${CONFIG_FILE}
+CMD=$(java -cp ${APP_JAR} org.apache.seatunnel.core.flink.FlinkStarter ${args}) && EXIT_CODE=$? || EXIT_CODE=$?
+if [ ${EXIT_CODE} -eq 234 ]; then
+    # print usage
+    echo "${CMD}"
+    exit 0
+elif [ ${EXIT_CODE} -eq 0 ]; then
+    echo "Execute SeaTunnel Flink Job: ${CMD}"
+    eval ${CMD}
+else
+    echo "${CMD}"
+    exit ${EXIT_CODE}
+fi

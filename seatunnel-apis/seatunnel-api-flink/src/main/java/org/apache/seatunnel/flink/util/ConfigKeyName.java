@@ -18,6 +18,11 @@
 package org.apache.seatunnel.flink.util;
 
 public class ConfigKeyName {
+
+    private ConfigKeyName() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static final String TIME_CHARACTERISTIC = "execution.time-characteristic";
     public static final String BUFFER_TIMEOUT_MILLIS = "execution.buffer.timeout";
     public static final String PARALLELISM = "execution.parallelism";
@@ -39,5 +44,5 @@ public class ConfigKeyName {
     public static final String MAX_STATE_RETENTION_TIME = "execution.query.state.max-retention";
     public static final String MIN_STATE_RETENTION_TIME = "execution.query.state.min-retention";
     public static final String STATE_BACKEND = "execution.state.backend";
-
+    public static final String PLANNER = "execution.planner";
 }

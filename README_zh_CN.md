@@ -1,17 +1,20 @@
-# seatunnel [![Build Status](https://travis-ci.org/InterestingLab/seatunnel.svg?branch=master)](https://travis-ci.org/InterestingLab/seatunnel)
-<img src="https://seatunnel.apache.org/img/logo.png" alt="seatunnel logo" height="200px" align="right" />
+# Apache SeaTunnel (Incubating)
+
+<img src="https://seatunnel.apache.org/image/logo.png" alt="seatunnel logo" height="200px" align="right" />
 
 [![Backend Workflow](https://github.com/apache/incubator-seatunnel/actions/workflows/backend.yml/badge.svg?branch=dev)](https://github.com/apache/incubator-seatunnel/actions/workflows/backend.yml)
-
+[![Slack](https://img.shields.io/badge/slack-%23seatunnel-4f8eba?logo=slack)](https://join.slack.com/t/apacheseatunnel/shared_invite/zt-123jmewxe-RjB_DW3M3gV~xL91pZ0oVQ)
+[![Twitter Follow](https://img.shields.io/twitter/follow/ASFSeaTunnel.svg?label=Follow&logo=twitter)](https://twitter.com/ASFSeaTunnel)
 
 ---
+[![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)
+[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_zh_CN.md)
 
 更名通知：SeaTunnel 原名为 waterdrop，于 2021 年 10 月 12 日更名为 SeaTunnel。
 
 ---
 
 SeaTunnel 是一个非常易用的支持海量数据实时同步的超高性能分布式数据集成平台，每天可以稳定高效同步数百亿数据，已在近百家公司生产上使用。
----
 
 ## 为什么我们需要 SeaTunnel
 
@@ -44,30 +47,21 @@ SeaTunnel 尽所能为您解决海量数据同步中可能遇到的问题：
 
 ## SeaTunnel 的工作流程
 
-![seatunnel-workflow.svg](https://github.com/apache/incubator-seatunnel-website/blob/main/static/image/seatunnel-workflow.svg)
+![seatunnel-workflow.svg](https://raw.githubusercontent.com/apache/incubator-seatunnel-website/main/static/image/seatunnel-workflow.svg)
 
 ```
-                         Input[数据源输入] -> Filter[数据处理] -> Output[结果输出]
+Source[数据源输入] -> Transform[数据处理] -> Sink[结果输出]
 ```
 
-多个 Filter 构建了数据处理的 Pipeline，满足各种各样的数据处理需求，如果您熟悉 SQL，也可以直接通过 SQL 构建数据处理的 Pipeline，简单高效。目前 seatunnel
-支持的[Filter列表](https://interestinglab.github.io/seatunnel-docs/#/zh-cn/v1/configuration/filter-plugin),
+多个 Transform 构建了数据处理的 Pipeline，满足各种各样的数据处理需求，如果您熟悉 SQL，也可以直接通过 SQL 构建数据处理的 Pipeline，简单高效。目前 seatunnel
+支持的[Transform 列表](https://seatunnel.apache.org/docs/transform/common-options),
 仍然在不断扩充中。您也可以开发自己的数据处理插件，整个系统是易于扩展的。
 
 ## SeaTunnel 支持的插件
 
-* Input plugin
+- Connectors 支持 [查看](https://seatunnel.apache.org/docs/category/source)
 
-Fake, File, Hdfs, Kafka, S3, Socket, 自行开发的 Input plugin
-
-* Filter plugin
-
-Add, Checksum, Convert, Date, Drop, Grok, Json, Kv, Lowercase, Remove, Rename, Repartition, Replace, Sample, Split, Sql,
-Table, Truncate, Uppercase, Uuid, 自行开发的Filter plugin
-
-* Output plugin
-
-Elasticsearch, File, Hdfs, Jdbc, Kafka, Mysql, S3, Stdout, 自行开发的 Output plugin
+- Transform 支持 [查看](https://seatunnel.apache.org/docs/transform/common-options/)
 
 ## 环境依赖
 
@@ -82,13 +76,17 @@ Elasticsearch, File, Hdfs, Jdbc, Kafka, Mysql, S3, Stdout, 自行开发的 Outpu
 
 ## 下载
 
-可以直接运行的软件包下载地址：https://github.com/apache/incubator-seatunnel/releases
+可以直接运行的软件包下载地址：https://seatunnel.apache.org/zh-CN/download/
 
 ## 快速入门
 
-快速入门：https://interestinglab.github.io/seatunnel-docs/#/zh-cn/v1/quick-start
+**Spark**
+https://seatunnel.apache.org/docs/deployment
 
-关于 SeaTunnel 的[详细文档](https://interestinglab.github.io/seatunnel-docs/)
+**Flink**
+https://seatunnel.apache.org/docs/deployment
+
+关于 SeaTunnel 的[详细文档](https://seatunnel.apache.org/docs/intro/about)
 
 ## 生产应用案例
 
@@ -107,7 +105,7 @@ Elasticsearch, File, Hdfs, Jdbc, Kafka, Mysql, S3, Stdout, 自行开发的 Outpu
 
 * 水滴筹, 数据平台 水滴筹在 Yarn 上使用 SeaTunnel 做实时流式以及定时的离线批处理，每天处理 3～4T 的数据量，最终将数据写入 Clickhouse。
 
-更多案例参见: https://interestinglab.github.io/seatunnel-docs/#/zh-cn/v1/case_study/
+更多案例参见: https://seatunnel.apache.org/blog
 
 ## 行为准则
 
@@ -117,10 +115,19 @@ SeaTunnel遵守贡献者公约[code of conduct](https://www.apache.org/foundatio
 
 ## 开发者
 
-感谢[所有开发者](https://github.com/apache/incubator-seatunnel/graphs/contributors)
+感谢所有开发者！
+
+[![](https://opencollective.com/seatunnel/contributors.svg?width=666)](https://github.com/apache/incubator-seatunnel/graphs/contributors)
+
 
 ## 欢迎联系
 
 * 邮件列表: **dev@seatunnel.apache.org**. 发送任意内容至 `dev-subscribe@seatunnel.apache.org`， 按照回复订阅邮件列表。
 * Slack: 发送 `Request to join SeaTunnel slack` 邮件到邮件列表 (`dev@seatunnel.apache.org`), 我们会邀请你加入（在此之前请确认已经注册Slack）.
 * [bilibili B站 视频](https://space.bilibili.com/1542095008)
+
+## 我们的用户
+各种公司和组织将 SeaTunnel 用于科研、商业化产品使用。
+访问我们的 [官方网站](https://seatunnel.apache.org/user) 查找用户页面。
+## License
+[Apache 2.0 License.](LICENSE)

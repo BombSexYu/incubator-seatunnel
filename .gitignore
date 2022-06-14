@@ -1,6 +1,9 @@
 # Package Files #
 *.jar
 
+# see JDK-8214300
+.attach_pid*
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
@@ -16,6 +19,10 @@ target/
 metastore_db/
 
 work_dir
+
+all-dependencies.txt
+self-modules.txt
+third-party-dependencies.txt
 
 *.keytab
 /derby.log
@@ -33,3 +40,4 @@ Test.scala
 test.conf
 log4j.properties
 spark-warehouse
+*.flattened-pom.xml

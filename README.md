@@ -1,8 +1,10 @@
-# SeaTunnel
+# Apache SeaTunnel (Incubating)
 
 <img src="https://seatunnel.apache.org/image/logo.png" alt="seatunnel logo" height="200px" align="right" />
 
 [![Backend Workflow](https://github.com/apache/incubator-seatunnel/actions/workflows/backend.yml/badge.svg?branch=dev)](https://github.com/apache/incubator-seatunnel/actions/workflows/backend.yml)
+[![Slack](https://img.shields.io/badge/slack-%23seatunnel-4f8eba?logo=slack)](https://join.slack.com/t/apacheseatunnel/shared_invite/zt-123jmewxe-RjB_DW3M3gV~xL91pZ0oVQ)
+[![Twitter Follow](https://img.shields.io/twitter/follow/ASFSeaTunnel.svg?label=Follow&logo=twitter)](https://twitter.com/ASFSeaTunnel)
 
 ---
 [![EN doc](https://img.shields.io/badge/document-English-blue.svg)](README.md)
@@ -34,7 +36,7 @@ SeaTunnel will do its best to solve the problems that may be encountered in the 
 - Mass data aggregation
 - Multi-source data processing
 
-## Features of SeaTunnel  
+## Features of SeaTunnel
 
 - Easy to use, flexible configuration, low code development
 - Real-time streaming
@@ -47,23 +49,22 @@ SeaTunnel will do its best to solve the problems that may be encountered in the 
 
 ## Workflow of SeaTunnel
 
-![seatunnel-workflow.svg](https://github.com/apache/incubator-seatunnel-website/blob/main/static/image/seatunnel-workflow.svg)
+![seatunnel-workflow.svg](https://raw.githubusercontent.com/apache/incubator-seatunnel-website/main/static/image/seatunnel-workflow.svg)
 
-Input[Data Source Input] -> Filter[Data Processing] -> Output[Result Output]
+```
+Source[Data Source Input] -> Transform[Data Processing] -> Sink[Result Output]
+```
 
 The data processing pipeline is constituted by multiple filters to meet a variety of data processing needs. If you are
 accustomed to SQL, you can also directly construct a data processing pipeline by SQL, which is simple and efficient.
 Currently, the filter list supported by SeaTunnel is still being expanded. Furthermore, you can develop your own data
 processing plug-in, because the whole system is easy to expand.
 
-## Plugins supported by SeaTunnel  
+## Plugins supported by SeaTunnel
 
-- Input plugin Fake, File, Hdfs, Kafka, S3, Socket, self-developed Input plugin
+- Connectors supported [check out](https://seatunnel.apache.org/docs/category/source)
 
-- Filter plugin Add, Checksum, Convert, Date, Drop, Grok, Json, Kv, Lowercase, Remove, Rename, Repartition, Replace,
-  Sample, Split, Sql, Table, Truncate, Uppercase, Uuid, Self-developed Filter plugin
-
-- Output plugin Elasticsearch, File, Hdfs, Jdbc, Kafka, Mysql, S3, Stdout, self-developed Output plugin
+- Transform supported [check out](https://seatunnel.apache.org/docs/transform/common-options/)
 
 ## Environmental dependency
 
@@ -78,15 +79,23 @@ If the data volume is small, or the goal is merely for functional verification, 
 a cluster environment, because SeaTunnel supports standalone operation. Note: SeaTunnel 2.0 supports running on Spark
 and Flink.
 
+## Compiling project
+Follow this [document](docs/en/contribution/setup.md).
+
 ## Downloads
 
-Download address for run-directly software package :https://github.com/apache/incubator-seatunnel/releases
+Download address for run-directly software package : https://seatunnel.apache.org/download
 
 ## Quick start
 
-Quick start: https://interestinglab.github.io/seatunnel-docs/#/zh-cn/v1/quick-start
+**Spark**
+https://seatunnel.apache.org/docs/deployment
 
-Detailed documentation on SeaTunnel:https://interestinglab.github.io/seatunnel-docs/#/
+**Flink**
+https://seatunnel.apache.org/docs/deployment
+
+Detailed documentation on SeaTunnel
+https://seatunnel.apache.org/docs/intro/about
 
 ## Application practice cases
 
@@ -125,9 +134,9 @@ volume average daily, and later writing the data to Clickhouse.
 
 Collecting various logs from business services into Apache Kafka, some of the data in Apache Kafka is consumed and extracted through Seatunnel, and then store into Clickhouse. 
 
-For more use cases, please refer to: https://interestinglab.github.io/seatunnel-docs/#/zh-cn/case_study/
+For more use cases, please refer to: https://seatunnel.apache.org/blog
 
-# Code of conduct
+## Code of conduct
 
 This project adheres to the Contributor Covenant [code of conduct](https://www.apache.org/foundation/policies/conduct).
 By participating, you are expected to uphold this code. Please follow
@@ -136,12 +145,31 @@ unacceptable behavior.
 
 ## Developer
 
-Thanks to all developers https://github.com/apache/incubator-seatunnel/graphs/contributors
+Thanks to all developers!
+
+[![](https://opencollective.com/seatunnel/contributors.svg?width=666)](https://github.com/apache/incubator-seatunnel/graphs/contributors)
 
 ## Contact Us
 
 * Mail list: **dev@seatunnel.apache.org**. Mail to `dev-subscribe@seatunnel.apache.org`, follow the reply to subscribe
   the mail list.
-* Slack: https://join.slack.com/t/apacheseatunnel/shared_invite/zt-10u1eujlc-g4E~ppbinD0oKpGeoo_dAw
+* Slack: https://join.slack.com/t/apacheseatunnel/shared_invite/zt-123jmewxe-RjB_DW3M3gV~xL91pZ0oVQ
 * Twitter: https://twitter.com/ASFSeaTunnel
-* [bilibili](https://space.bilibili.com/1542095008) (for china users)
+* [Bilibili](https://space.bilibili.com/1542095008) (for Chinese users)
+
+## Landscapes
+
+<p align="center">
+<br/><br/>
+<img src="https://landscape.cncf.io/images/left-logo.svg" width="150" alt=""/>&nbsp;&nbsp;<img src="https://landscape.cncf.io/images/right-logo.svg" width="200" alt=""/>
+<br/><br/>
+SeaTunnel enriches the <a href="https://landscape.cncf.io/?landscape=observability-and-analysis&license=apache-license-2-0">CNCF CLOUD NATIVE Landscape.</a >
+
+</p >
+
+## Our Users
+Various companies and organizations use SeaTunnel for research, production and commercial products.
+Visit our [website](https://seatunnel.apache.org/user) to find the user page.
+
+## License
+[Apache 2.0 License.](LICENSE)

@@ -19,9 +19,14 @@ package org.apache.seatunnel.flink.batch;
 
 import org.apache.seatunnel.flink.BaseFlinkSource;
 import org.apache.seatunnel.flink.FlinkEnvironment;
+
 import org.apache.flink.api.java.DataSet;
+import org.apache.flink.types.Row;
 
-public interface FlinkBatchSource<T> extends BaseFlinkSource {
+/**
+ * a FlinkBatchSource plugin will read data from other system using Flink DataSet API.
+ */
+public interface FlinkBatchSource extends BaseFlinkSource<DataSet<Row>> {
 
-    DataSet<T> getData(FlinkEnvironment env);
+    DataSet<Row> getData(FlinkEnvironment env);
 }

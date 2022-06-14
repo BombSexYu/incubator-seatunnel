@@ -34,46 +34,39 @@ source {
     result_table_name = "my_dataset"
   }
 
-
-
-  # You can also use other input plugins, such as hdfs
-  # hdfs {
+  # You can also use other input plugins, such as file
+  # file {
   #   result_table_name = "accesslog"
   #   path = "hdfs://hadoop-cluster-01/nginx/accesslog"
   #   format = "json"
   # }
 
   # If you would like to get more information about how to configure seatunnel and see full list of input plugins,
-  # please go to https://interestinglab.github.io/seatunnel/#/zh-cn/configuration/base
+  # please go to https://seatunnel.apache.org/docs/spark/configuration/source-plugins/Fake
 }
 
 transform {
   # split data by specific delimiter
 
-
-
-
-  # you can also you other filter plugins, such as sql
+  # you can also use other filter plugins, such as sql
   # sql {
   #   sql = "select * from accesslog where request_time > 1000"
   # }
 
   # If you would like to get more information about how to configure seatunnel and see full list of filter plugins,
-  # please go to https://interestinglab.github.io/seatunnel/#/zh-cn/configuration/base
+  # please go to https://seatunnel.apache.org/docs/spark/configuration/transform-plugins/Sql
 }
 
 sink {
   # choose stdout output plugin to output data to console
   Console {}
 
-
-
-  # you can also you other output plugins, such as sql
+  # you can also use other output plugins, such as hdfs
   # hdfs {
   #   path = "hdfs://hadoop-cluster-01/nginx/accesslog_processed"
   #   save_mode = "append"
   # }
 
   # If you would like to get more information about how to configure seatunnel and see full list of output plugins,
-  # please go to https://interestinglab.github.io/seatunnel/#/zh-cn/configuration/base
+  # please go to https://seatunnel.apache.org/docs/spark/configuration/sink-plugins/Console
 }

@@ -19,10 +19,14 @@ package org.apache.seatunnel.flink.batch;
 
 import org.apache.seatunnel.flink.BaseFlinkSink;
 import org.apache.seatunnel.flink.FlinkEnvironment;
+
 import org.apache.flink.api.java.DataSet;
-import org.apache.flink.api.java.operators.DataSink;
+import org.apache.flink.types.Row;
 
-public interface FlinkBatchSink<IN, OUT> extends BaseFlinkSink {
+/**
+ * a FlinkBatchSink plugin will write data to other system using Flink DataSet API.
+ */
+public interface FlinkBatchSink extends BaseFlinkSink {
 
-    DataSink<OUT> outputBatch(FlinkEnvironment env, DataSet<IN> inDataSet);
+    void outputBatch(FlinkEnvironment env, DataSet<Row> inDataSet);
 }

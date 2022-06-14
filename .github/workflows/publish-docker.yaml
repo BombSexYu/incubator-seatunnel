@@ -21,6 +21,9 @@ on:
     branches:
       - dev
       - docker
+    paths-ignore:
+      - 'docs/**'
+      - '**/*.md'
 
 env:
   HUB: ghcr.io/${{ github.repository }}
@@ -58,12 +61,16 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
       - name: Build and push docker images
+        env:
+          MAVEN_OPTS: -Xmx2G -Xms2G
         run: |
           ./mvnw -B clean deploy \
           -Dmaven.test.skip \
           -Dmaven.javadoc.skip \
           -Dmaven.checkstyle.skip \
+          -Dlicense.skipAddThirdParty=true \
           -Dmaven.deploy.skip \
           -Ddocker.tag=${{ github.sha }} \
           -Ddocker.hub=${{ env.HUB }} \
-          -Pdocker
+          -Pdocker \
+          --no-snapshot-updates

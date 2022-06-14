@@ -17,14 +17,19 @@
 
 package org.apache.seatunnel.common.config;
 
-import org.apache.seatunnel.config.Config;
-import org.apache.seatunnel.config.ConfigFactory;
-import org.apache.seatunnel.config.ConfigValue;
+import org.apache.seatunnel.shade.com.typesafe.config.Config;
+import org.apache.seatunnel.shade.com.typesafe.config.ConfigFactory;
+import org.apache.seatunnel.shade.com.typesafe.config.ConfigValue;
+
+import lombok.NonNull;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class TypesafeConfigUtils {
+public final class TypesafeConfigUtils {
+
+    private TypesafeConfigUtils() {
+    }
 
     /**
      * Extract sub config with fixed prefix
@@ -87,5 +92,22 @@ public class TypesafeConfigUtils {
         }
 
         return config;
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T> T getConfig(final Config config, final String configKey, @NonNull final T defaultValue) {
+        if (defaultValue.getClass().equals(Long.class)) {
+            return config.hasPath(configKey) ? (T) Long.valueOf(config.getString(configKey)) : defaultValue;
+        }
+        if (defaultValue.getClass().equals(Integer.class)) {
+            return config.hasPath(configKey) ? (T) Integer.valueOf(config.getString(configKey)) : defaultValue;
+        }
+        if (defaultValue.getClass().equals(String.class)) {
+            return config.hasPath(configKey) ? (T) config.getString(configKey) : defaultValue;
+        }
+        if (defaultValue.getClass().equals(Boolean.class)) {
+            return config.hasPath(configKey) ? (T) Boolean.valueOf(config.getString(configKey)) : defaultValue;
+        }
+        throw new RuntimeException("Unsupported config type, configKey: " + configKey);
     }
 }

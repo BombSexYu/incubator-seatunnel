@@ -16,10 +16,9 @@
  */
 package org.apache.seatunnel.spark.stream
 
-import org.apache.seatunnel.common.config.CheckResult
-import org.apache.seatunnel.config.{Config, ConfigFactory}
-import org.apache.seatunnel.env.Execution
-import org.apache.seatunnel.spark.batch.SparkBatchExecution
+import org.apache.seatunnel.apis.base.env.Execution
+import org.apache.seatunnel.apis.base.plugin.Plugin
+import org.apache.seatunnel.shade.com.typesafe.config.{Config, ConfigFactory}
 import org.apache.seatunnel.spark.{BaseSparkSink, BaseSparkSource, BaseSparkTransform, SparkEnvironment}
 import org.apache.spark.sql.{Dataset, Row}
 
@@ -27,7 +26,7 @@ import java.util.{List => JList}
 import scala.collection.JavaConversions._
 
 class SparkStreamingExecution(sparkEnvironment: SparkEnvironment)
-  extends Execution[BaseSparkSource[_], BaseSparkTransform, BaseSparkSink[_]] {
+  extends Execution[BaseSparkSource[_], BaseSparkTransform, BaseSparkSink[_], SparkEnvironment] {
 
   private var config = ConfigFactory.empty()
 
@@ -35,7 +34,7 @@ class SparkStreamingExecution(sparkEnvironment: SparkEnvironment)
     val source = sources.get(0).asInstanceOf[SparkStreamingSource[_]]
 
     sources.subList(1, sources.size()).foreach(s => {
-      SparkBatchExecution.registerInputTempView(
+      SparkEnvironment.registerInputTempView(
         s.asInstanceOf[BaseSparkSource[Dataset[Row]]],
         sparkEnvironment)
     })
@@ -43,24 +42,22 @@ class SparkStreamingExecution(sparkEnvironment: SparkEnvironment)
       sparkEnvironment,
       dataset => {
         val conf = source.getConfig
-        if (conf.hasPath(SparkBatchExecution.resultTableName)) {
-          SparkBatchExecution.registerTempView(
-            conf.getString(SparkBatchExecution.resultTableName),
+        if (conf.hasPath(Plugin.RESULT_TABLE_NAME)) {
+          SparkEnvironment.registerTempView(
+            conf.getString(Plugin.RESULT_TABLE_NAME),
             dataset)
         }
         var ds = dataset
         for (tf <- transforms) {
-          if (ds.take(1).length > 0) {
-            ds = SparkBatchExecution.transformProcess(sparkEnvironment, tf, ds)
-            SparkBatchExecution.registerTransformTempView(tf, ds)
-          }
+          ds = SparkEnvironment.transformProcess(sparkEnvironment, tf, ds)
+          SparkEnvironment.registerTransformTempView(tf, ds)
         }
 
         source.beforeOutput()
 
         if (ds.take(1).length > 0) {
           sinks.foreach(sink => {
-            SparkBatchExecution.sinkProcess(sparkEnvironment, sink, ds)
+            SparkEnvironment.sinkProcess(sparkEnvironment, sink, ds)
           })
         }
 
@@ -76,7 +73,4 @@ class SparkStreamingExecution(sparkEnvironment: SparkEnvironment)
 
   override def getConfig: Config = config
 
-  override def checkConfig(): CheckResult = new CheckResult(true, "")
-
-  override def prepare(void: Void): Unit = {}
 }
